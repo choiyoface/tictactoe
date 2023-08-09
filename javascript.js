@@ -15,13 +15,19 @@ const winningMessageElement = document.getElementById('winningMessage')
 const board = document.getElementById('board')
 const winningMessageTextElement = document.querySelector('[data-winning-message-text]')
 const cellElements = document.querySelectorAll('[data-cell]')
+const restartButton = document.getElementById('restartButton')
 let circleTurn
 
 startGame()
+restartButton.addEventListener('click',startGame)
 
 function startGame(){
    circleTurn = false
     cellElements.forEach(cell => {
+        cell.classList.remove(X_CLASS)
+        cell.classList.remove(CIRCLE_CLASS)
+        cell.removeEventListener('click',handleClick)
+       document.getElementById('winningMessage').innerHTML = ""
         cell.addEventListener('click',handleClick, {once:true})
     })
     setBoardHoverClass()
@@ -49,7 +55,7 @@ function endGame(draw){
     }else{
         winningMessageTextElement.innerText = `${circleTurn ? "o" : "X "} is the Winner`
     }
-    winningMessageElement.classList.add('show')
+    
 }
 function isDraw(){
     return [...cellElements].every(cell =>{
